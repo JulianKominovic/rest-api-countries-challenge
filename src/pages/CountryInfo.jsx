@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import styled, { ThemeContext } from "styled-components";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { Redirect, useParams } from "react-router";
+import { useParams } from "react-router";
 import { fetchCountryByCode, fetchCountryByName } from "../api/fetchFunctions";
 import { getFormatted } from "../formatter/populationParser";
 import DescriptionText from "../components/DescriptionText";
@@ -127,7 +127,6 @@ const CountryInfo = () => {
 
   useEffect(() => {
     async function fetchCountry() {
-      console.log("calling");
       setCountryBorders([]);
       const country = await fetchCountryByName(countryName);
       await setCountryInfo(country[0]);
@@ -137,13 +136,13 @@ const CountryInfo = () => {
 
     async function fetchAllData() {
       const country = await fetchCountry();
-      const borders = await Promise.all([
+      await Promise.all([
         country.borders.map((borderCountry) =>
           fetchCountryByCode(borderCountry)
         ),
       ]).then((res) =>
         res[0].map((item) => {
-          item.then((resolve) =>
+          return item.then((resolve) =>
             setCountryBorders((prev) => [...prev, resolve])
           );
         })

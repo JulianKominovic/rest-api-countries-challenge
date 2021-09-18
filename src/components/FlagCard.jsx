@@ -5,7 +5,7 @@ import { getFormatted } from "../formatter/populationParser";
 import { Link } from "react-router-dom";
 import DescriptionText from "./DescriptionText";
 const Card = styled(Link)`
-  width: 264px;
+  width: 260px;
   height: 336px;
   border-radius: 8px;
   overflow: hidden;
