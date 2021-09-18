@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import Home from "./pages/Home";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Theme from "./Theme";
+import { ThemeStore } from "./context/ThemeStore";
+import { useEffect, useState } from "react";
+import { extractHomeInfoOnly } from "./api/fetchFunctions";
+import CountryInfo from "./pages/CountryInfo";
 
 function App() {
+  useEffect(() => {
+    extractHomeInfoOnly().then((res) => setCountries(res));
+  }, []);
+  const [countries, setCountries] = useState([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <ThemeStore>
+        <Theme>
+          <Switch>
+            <Route exact path="/">
+              <Home countries={countries}></Home>
+            </Route>
+            <Route exact path="/:countryName">
+              <CountryInfo countries={countries}></CountryInfo>
+            </Route>
+          </Switch>
+        </Theme>
+      </ThemeStore>
+    </Router>
   );
 }
 
