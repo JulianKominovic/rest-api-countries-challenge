@@ -1,8 +1,10 @@
-# Frontend Mentor - Time tracking dashboard solution
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/7a6e27e7-e858-4249-8683-4eff0307e41e/deploy-status)](https://app.netlify.com/sites/jk-time-tracking-dashboard/deploys)
 
-This is a solution to the [Time tracking dashboard challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/time-tracking-dashboard-UIQ7167Jw). Frontend Mentor challenges help you improve your coding skills by building realistic projects. 
+# Frontend Mentor - REST Countries API with color theme switcher solution
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/e7fe30b3-a964-4358-a544-c4f121bd2a19/deploy-status)](https://app.netlify.com/sites/jk-api-rest-countries/deploys)
+
+This is a solution to the [REST Countries API with color theme switcher challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/rest-countries-api-with-color-theme-switcher-5cacc469fec04111f7b848ca). Frontend Mentor challenges help you improve your coding skills by building realistic projects. 
 
 ## Table of contents
 
@@ -14,9 +16,9 @@ This is a solution to the [Time tracking dashboard challenge on Frontend Mentor]
   - [Built with](#built-with)
   - [What I learned](#what-i-learned)
   - [Continued development](#continued-development)
+  - [Useful resources](#useful-resources)
 - [Author](#author)
-
-
+- [Acknowledgments](#acknowledgments)
 
 ## Overview
 
@@ -24,28 +26,29 @@ This is a solution to the [Time tracking dashboard challenge on Frontend Mentor]
 
 Users should be able to:
 
-- View the optimal layout for the site depending on their device's screen size
-- See hover states for all interactive elements on the page
-- Switch between viewing Daily, Weekly, and Monthly stats
+- See all countries from the API on the homepage
+- Search for a country using an `input` field
+- Filter countries by region
+- Click on a country to see more detailed information on a separate page
+- Click through to the border countries on the detail page
+- Toggle the color scheme between light and dark mode *(optional)*
 
 ### Screenshot
 
-### Desktop
+### Desktop (light theme)
 
-![React-Stylecomponents-solution-1920x1080](D:\Programacion\FRONTEND MENTOR\time-tracking-dashboard-main\time-tracking-dashboard-react-styled-components\images\React-Stylecomponents-solution-1920x1080.png)
-
-
-
-### Mobile
-
-![React-Stylecomponents-solution-mobile](D:\Programacion\FRONTEND MENTOR\time-tracking-dashboard-main\time-tracking-dashboard-react-styled-components\images\React-Stylecomponents-solution-mobile.png)
+![](D:\Programacion\FRONTEND MENTOR\rest-countries-api\results\desktop.png)
 
 
+
+### Mobile (dark theme)
+
+![](D:\Programacion\FRONTEND MENTOR\rest-countries-api\results\mobile.png)
 
 ### Links
 
-- Solution URL: [See the challenge here](https://www.frontendmentor.io/solutions/react-js-with-styled-components-and-usecontext-KuCzkZ7yE)
-- Live Site URL: [Netlify Host](https://jk-time-tracking-dashboard.netlify.app/)
+- Solution URL: [Add solution URL here](https://www.frontendmentor.io/solutions/react-with-styled-components-and-usecontext-api-Rsvnd4F-U)
+- Live Site URL: [jk-api-rest-countries.netlify.app](https://jk-api-rest-countries.netlify.app/)
 
 ## My process
 
@@ -53,37 +56,57 @@ Users should be able to:
 
 - CSS custom properties
 - Flexbox
-- CSS Grid
-- Mobile-first workflow
 - [React](https://reactjs.org/) - JS library
 - [Styled Components](https://styled-components.com/) - For styles
-- React useContext
 
-
+- React router DOM
+- Context API
 
 ### What I learned
 
-```react
-// CONTEXT API from REACT
-const Context = React.createContext({});
+Fetching async data with fetch() and promises.
 
-export function DataTypeProvider({ children }) {
-  const [currentDataType, setCurrentDataType] = useState("Daily");
-  return (
-    <Context.Provider value={{ currentDataType, setCurrentDataType }}>
-      {children}
-    </Context.Provider>
-  );
-}
-export default Context;
+```js
+async function fetchAllData() {
+      const country = await fetchCountry();
+      const borders = await Promise.all([
+        country.borders.map((borderCountry) =>
+          fetchCountryByCode(borderCountry)
+        ),
+      ]).then((res) =>
+        res[0].map((item) => {
+          item.then((resolve) =>
+            setCountryBorders((prev) => [...prev, resolve])
+          );
+        })
+      );
+    }
 ```
+Using useEffect with dependencies to re-render the same component with different data.
+
+```js
+useEffect(() => {
+    //ASYNC FETCH DATA
+    //SET COUNTRY INFO IN USESTATE()
+    //STORES FETCH DATA INTO USESTATE ()
+    // REFRESH WHEN THE URL CHANGE
+},[countryName])
+```
+
 
 ### Continued development
 
-- API call to database or something similar.
-- Better responsive design.
-- More features.
-- Working buttons.
+- More country data.
+- Maybe some statistics graphs.
+
+### Useful resources
+
+- [Promise all](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Promise/all) - This helped me out with promises in order to fetch country borders data from API.
+- [React Router DOM documentation](https://reactrouter.com/web/api/Link) - React router DOM documentation about url history manipulation and hooks.
+- [React's useEffect documentation](https://es.reactjs.org/docs/hooks-effect.html)
+- [API's documentation](https://github.com/apilayer/restcountries)
+
+
 
 ## Author
 
